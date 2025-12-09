@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package campoMinado;
+
+option java_multiple_files = true;
+option java_package = "campoMinado";
+option java_outer_classname = "CampoMinado";
+
+// Representação do mapa visível (mapa2)
+message MapaVisivel {
+  repeated Linha linhas = 1;
+}
+
+message Linha {
+  repeated int32 valores = 1;
+}
+
+// Requisições
+message CriarMapaRequest {
+  int32 linhas = 1;
+  int32 colunas = 2;
+  int32 bombas = 3;
+}
+
+message PrimeiraJogadaRequest {
+  int32 x = 1;
+  int32 y = 2;
+}
+
+message CavarRequest {
+  int32 x = 1;
+  int32 y = 2;
+}
+
+message LimparRequest {
+  int32 x = 1;
+  int32 y = 2;
+}
+
+message BandeiraRequest {
+  int32 x = 1;
+  int32 y = 2;
+}
+
+// Resposta
+message EstadoJogo {
+  MapaVisivel mapa = 1;
+  int32 bombasRestantes = 2;
+  bool jogoAtivo = 3;
+  int32 quadros = 4;
+}
+
+service CampoMinadoService {
+  rpc criarMapa(CriarMapaRequest) returns (EstadoJogo);
+  rpc primeiraJogada(PrimeiraJogadaRequest) returns (EstadoJogo);
+  rpc cava(CavarRequest) returns (EstadoJogo);
+  rpc limpa(LimparRequest) returns (EstadoJogo);
+  rpc bandeira(BandeiraRequest) returns (EstadoJogo);
+}
